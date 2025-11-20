@@ -1,0 +1,44 @@
+{% extends 'index.html' %}
+{% block 'b1' %}
+
+<h2 align="center" style="color:#007bff;">Welcome, {{ request.session.username }} 👋</h2>
+<p align="center">Please fill in your student details below.</p>
+
+<form method="post" action="{% url 'save_student_details' %}" style="width:60%; margin:auto;">
+    {% csrf_token %}
+    <table align="center" cellpadding="10" cellspacing="0" style="width:100%;">
+        <tr>
+            <td><b>Department:</b></td>
+            <td>
+                <select name="department" required style="width:100%; padding:6px;">
+                    <option value="">--Select Department--</option>
+                    <option value="CSE">CSE</option>
+                    <option value="ECE">ECE</option>
+                    <option value="EEE">EEE</option>
+                    <option value="IT">IT</option>
+                    <option value="MECH">MECH</option>
+                    <option value="CIVIL">CIVIL</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td><b>Year:</b></td>
+            <td>
+                <select name="year" required style="width:100%; padding:6px;">
+                    <option value="">--Select Year--</option>
+                    <option value="1">1st Year</option>
+                    <option value="2">2nd Year</option>
+                    <option value="3">3rd Year</option>
+                    <option value="4">4th Year</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+
+    <div align="center" style="margin-top:20px;">
+        <input type="submit" value="Save Details"
+               style="padding:8px 20px; background-color:#28a745; color:white; border:none; border-radius:5px; cursor:pointer;">
+    </div>
+</form>
+
+{% endblock %}

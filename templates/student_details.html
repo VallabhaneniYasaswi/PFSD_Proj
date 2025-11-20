@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h2>Enter Your Student Details</h2>
+    <form action="{% url 'save_student_details' %}" method="POST">
+        {% csrf_token %}
+        <label>Department:</label>
+        <input type="text" name="department" required><br><br>
+
+        <label>Year:</label>
+        <select name="year" required>
+            <option value="">Select Year</option>
+            <option value="1">1st Year</option>
+            <option value="2">2nd Year</option>
+            <option value="3">3rd Year</option>
+            <option value="4">4th Year</option>
+        </select><br><br>
+
+        <button type="submit">Save Details</button>
+    </form>
+</div>
+{% endblock %}

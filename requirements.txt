@@ -1,0 +1,9 @@
+Django==5.0.3
+gunicorn
+psycopg2-binary
+dj-database-url
+whitenoise
+
+# optional (only if you use these)
+Pillow
+requests

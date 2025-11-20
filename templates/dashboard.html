@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Dashboard</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+:root {
+    --primary-color: #4A90E2;
+    --secondary-color: #5C6BC0;
+    --accent-color: #FFC107;
+    --background-light: #F4F7FC;
+    --background-dark: #2F3640;
+    --card-background: #FFFFFF;
+    --text-color: #333333;
+    --text-light: #666666;
+    --border-color: #E0E0E0;
+    --shadow-light: rgba(0, 0, 0, 0.05);
+    --shadow-medium: rgba(0, 0, 0, 0.1);
+
+    /* Status Colors */
+    --status-present: #4CAF50; /* Green */
+    --status-absent: #F44336;  /* Red */
+    --status-late: #FF9800;    /* Orange */
+    --status-leave: #2196F3;   /* Blue */
+    --status-active: #4CAF50;
+    --status-inactive: #9E9E9E;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-light);
+    display: flex;
+    min-height: 100vh;
+    color: var(--text-color);
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background-color: var(--background-dark);
+    color: #FFFFFF;
+    padding: 20px 0;
+    box-shadow: 2px 0 5px var(--shadow-medium);
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 0;
+    left: 0;
+    height: 100vh;
+}
+
+.sidebar .logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 30px;
+    color: var(--primary-color);
+    padding: 0 20px;
+}
+
+.sidebar .nav-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1; /* Allows it to take available space */
+}
+
+.sidebar .nav-links li a {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-weight: 400;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.sidebar .nav-links li a i {
+    margin-right: 15px;
+    font-size: 1.1rem;
+}
+
+.sidebar .nav-links li a:hover,
+.sidebar .nav-links li a.active {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #FFFFFF;
+    border-left: 5px solid var(--primary-color);
+    padding-left: 15px; /* Adjust padding due to border */
+}
+
+/* Main Content */
+.main-content {
+    flex-grow: 1;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    background-color: var(--card-background);
+    padding: 20px 30px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px var(--shadow-light);
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-light);
+    font-weight: 400;
+}
+
+.user-info i {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+}
+
+/* Cards */
+.card {
+    background-color: var(--card-background);
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 20px var(--shadow-light);
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card h2 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: var(--text-color);
+}
+
+.card p {
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+/* Dashboard Grid */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.dashboard-grid .full-width-card {
+    grid-column: 1 / -1; /* Spans all columns */
+}
+
+/* Status Cards */
+.status-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    text-align: left;
+}
+
+.status-card .card-icon {
+    font-size: 2.5rem;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #FFFFFF;
+    flex-shrink: 0;
+}
+
+.status-card.present .card-icon { background-color: var(--status-present); }
+.status-card.absent .card-icon { background-color: var(--status-absent); }
+.status-card.late .card-icon { background-color: var(--status-late); }
+.status-card.leave .card-icon { background-color: var(--status-leave); }
+
+
+.status-card h3 {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+.status-card .metric {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-top: 5px;
+}
+
+/* Activity List */
+.activity-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.activity-list li {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.95rem;
+}
+
+.activity-list li:last-child {
+    border-bottom: none;
+}
+
+.activity-list .activity-time {
+    color: var(--text-light);
+    font-size: 0.85rem;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+/* Status Badges */
+.status {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #FFFFFF;
+}
+
+.status.present { background-color: var(--status-present); }
+.status.absent { background-color: var(--status-absent); }
+.status.late { background-color: var(--status-late); }
+.status.leave { background-color: var(--status-leave); }
+.status.active { background-color: var(--status-active); }
+.status.inactive { background-color: var(--status-inactive); }
+
+
+/* Chart Placeholder */
+.chart-placeholder {
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-light);
+    font-style: italic;
+    font-size: 0.9rem;
+}
+
+/* Holiday List */
+.holiday-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.holiday-list li {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    font-size: 0.95rem;
+}
+
+.holiday-list li:last-child {
+    border-bottom: none;
+}
+
+.holiday-list i {
+    margin-right: 10px;
+    color: var(--primary-color);
+}
+
+.holiday-list .holiday-date {
+    font-weight: 600;
+    margin-right: 10px;
+}
+
+
+/* Filter Section (Attendance Log) */
+.filter-section {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+    flex-wrap: wrap; /* Allows items to wrap on smaller screens */
+}
+
+.input-field {
+    padding: 10px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    background-color: var(--card-background);
+    transition: border-color 0.3s, box-shadow 0.3s;
+    flex-grow: 1; /* Allows fields to grow */
+    min-width: 150px; /* Minimum width for fields */
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: background-color 0.3s, transform 0.2s;
+    flex-shrink: 0; /* Prevents buttons from shrinking */
+}
+
+.primary-btn {
+    background-color: var(--primary-color);
+    color: #FFFFFF;
+}
+
+.primary-btn:hover {
+    background-color: #3a7bd5; /* A bit darker */
+    transform: translateY(-2px);
+}
+
+.secondary-btn {
+    background-color: var(--border-color);
+    color: var(--text-color);
+}
+
+.secondary-btn:hover {
+    background-color: #dcdcdc; /* A bit darker */
+    transform: translateY(-2px);
+}
+
+/* Tables */
+.table-responsive {
+    overflow-x: auto; /* Makes tables scrollable on small screens */
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    font-size: 0.95rem;
+    min-width: 600px; /* Ensures table is not too narrow */
+}
+
+table thead th {
+    background-color: var(--background-light);
+    text-align: left;
+    padding: 12px 15px;
+    color: var(--text-light);
+    font-weight: 600;
+    border-bottom: 2px solid var(--border-color);
+}
+
+table tbody td {
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: middle;
+}
+
+table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+table tbody tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* Action Buttons in Table */
+.action-btn {
+    background: none;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-right: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+}
+
+.action-btn.edit-btn {
+    color: var(--primary-color);
+}
+.action-btn.edit-btn:hover {
+    background-color: rgba(74, 144, 226, 0.1);
+}
+
+.action-btn.delete-btn {
+    color: var(--status-absent);
+}
+.action-btn.delete-btn:hover {
+    background-color: rgba(244, 67, 54, 0.1);
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.pagination .btn {
+    padding: 8px 15px;
+}
+
+/* Toolbar (Employees Page) */
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.toolbar .search-field {
+    flex-grow: 1;
+    max-width: 300px; /* Limit search field width */
+}
+
+.toolbar .primary-btn i {
+    margin-right: 8px;
+}
+
+/* Employee Grid */
+.employee-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+.employee-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.employee-avatar {
+    font-size: 3.5rem;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    width: 80px;
+    height: 80px;
+    border-radius: 50
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">Attendance Tracker</div>
+        <ul class="nav-links">
+            <li><a href="{%url 'dashboard'%}"><i class="fas fa-th-large"></i> Dashboard</a></li>
+            <li><a href="{%url 'attendance'%}"><i class="fas fa-th-large"></i> attendance</a></li>
+            <li><a href="{%url 'employee'%}"><i class="fas fa-th-large"></i> Employee</a></li>
+            <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <header class="header">
+            <h1>Dashboard</h1>
+            <div class="user-info">
+                <span>Welcome, Admin!</span>
+                <i class="fas fa-user-circle"></i>
+            </div>
+        </header>
+
+        <div class="dashboard-grid">
+            <div class="card status-card present">
+                <div class="card-icon"><i class="fas fa-user-check"></i></div>
+                <div class="card-content">
+                    <h3>Present Today</h3>
+                    <p class="metric">125</p>
+                </div>
+            </div>
+            <div class="card status-card absent">
+                <div class="card-icon"><i class="fas fa-user-times"></i></div>
+                <div class="card-content">
+                    <h3>Absent Today</h3>
+                    <p class="metric">8</p>
+                </div>
+            </div>
+            <div class="card status-card late">
+                <div class="card-icon"><i class="fas fa-history"></i></div>
+                <div class="card-content">
+                    <h3>Late Arrivals</h3>
+                    <p class="metric">15</p>
+                </div>
+            </div>
+            <div class="card status-card leave">
+                <div class="card-icon"><i class="fas fa-calendar-alt"></i></div>
+                <div class="card-content">
+                    <h3>On Leave</h3>
+                    <p class="metric">5</p>
+                </div>
+            </div>
+
+            <div class="card full-width-card">
+                <h2>Recent Activity</h2>
+                <ul class="activity-list">
+                    <li><span class="activity-time">09:05 AM</span> John Doe marked as <span class="status present">Present</span></li>
+                    <li><span class="activity-time">09:02 AM</span> Jane Smith marked as <span class="status late">Late</span></li>
+                    <li><span class="activity-time">08:58 AM</span> Employee ID #101 checked in</li>
+                    <li><span class="activity-time">08:45 AM</span> Michael Brown marked as <span class="status absent">Absent</span></li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>Overall Attendance Trends</h2>
+                <!-- Chart placeholder -->
+                <div class="chart-placeholder">
+                    <p>Attendance trend chart here</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Upcoming Holidays</h2>
+                <ul class="holiday-list">
+                    <li><i class="fas fa-calendar-day"></i> <span class="holiday-date">Dec 25</span> Christmas Day</li>
+                    <li><i class="fas fa-calendar-day"></i> <span class="holiday-date">Jan 01</span> New Year's Day</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+</html>

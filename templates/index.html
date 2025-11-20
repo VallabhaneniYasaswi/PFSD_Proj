@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Attendance Tracking Framework</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5; /* Light gray background */
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        header {
+            background-color: #ffffff; /* White header */
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #2c3e50; /* Darker blue-gray for heading */
+            margin: 0;
+            font-size: 2.2em;
+            letter-spacing: 0.5px;
+        }
+        nav {
+            display: flex;
+            align-items: center;
+        }
+        nav a {
+            display: inline-block;
+            margin-left: 25px;
+            padding: 10px 15px;
+            text-decoration: none;
+            color: #555;
+            font-weight: 600;
+            font-size: 1.05em;
+            transition: color 0.3s ease, background-color 0.3s ease;
+            position: relative;
+        }
+        nav a:hover {
+            color: #007bff; /* Bright blue on hover */
+        }
+        nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: #007bff;
+            transition: width 0.3s ease;
+        }
+        nav a:hover::after {
+            width: 100%;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        .image-row {
+    display: flex;
+    flex-wrap: wrap;   /* allows wrapping on smaller screens */
+    gap: 15px;         /* spacing between images */
+    justify-content: center;
+}
+.image-row img {
+    border-radius: 10px;
+    width: 250px;
+    height: 160px;
+    object-fit: cover;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+    transition: transform 0.3s ease;
+}
+.image-row img:hover {
+    transform: scale(1.05);
+}
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Attendance Tracking Framework</h1>
+        <nav>
+            <a href="{%url 'home'%}">Home</a>
+            <a href="{%url 'login'%}">Login</a>
+            <a href="{%url 'signup'%}">Signup</a>
+            <a href="{%url 'about'%}">About</a>
+        </nav>
+    </header>
+    <div class="container">
+    {% block 'b1' %}
+
+    <div class="image-row">
+        <img src="https://itechindia.co/wp-content/uploads/2021/10/inner-banner2.jpeg" alt="Random 1">
+        <img src="https://leadschool.in/wp-content/uploads/2024/02/how-is-LEAD-Groups-Attendance.png" alt="Random 2">
+        <img src="https://plus.unsplash.com/premium_photo-1661942126259-fb08e7cce1e2?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8dGVhY2hlcnxlbnwwfHwwfHx8MA%3D%3D" alt="Random 3">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGxZg8kkhlqjYDejCH-S68jXHUEdGf0vV7r8CGxsw2ECc3delZ6CB8V7sOHeSeB6PzA6o&usqp=CAU" alt="Random 4">
+        <img src="https://images.pexels.com/photos/3184328/pexels-photo-3184328.jpeg" alt="Random 5">
+    </div>
+
+    {% endblock %}
+</div>
+</body>
+</html>

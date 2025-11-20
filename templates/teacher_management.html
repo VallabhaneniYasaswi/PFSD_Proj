@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Teacher Management</title>
+    <style>
+        /* Same CSS as attendance page for consistency */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+        body { background-color: #f8f9fa; color: #333; }
+
+        nav {
+            background-color: #0b3d91;
+            padding: 12px 20px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav a {
+            color: white;
+            margin: 0 10px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        nav a:hover { text-decoration: underline; }
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        h2 { color: #007bff; margin-bottom: 20px; }
+        p { margin-bottom: 20px; }
+
+        .back-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #6c757d;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .back-btn:hover { background-color: #5a6268; }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav>
+        <div>
+            <a href="{% url 'attendance' %}">Attendance</a>
+            <a href="{% url 'teacher_management' %}">Teacher Management</a>
+        </div>
+        <div>
+            <a href="{% url 'logout' %}">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2>Teacher Management</h2>
+        <p>Here you can manage teachers (add, edit, remove).</p>
+        <a href="{% url 'attendance' %}" class="back-btn">Back to Attendance</a>
+    </div>
+
+</body>
+</html>

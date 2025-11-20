@@ -1,0 +1,164 @@
+{% extends 'index.html' %}
+{% block 'b1' %}
+<style>
+h2 {
+    color: #2c3e50; /* Modern dark blue-gray */
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 2.2em;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+/* Form Container */
+form {
+    background: #ffffff;
+    padding: 35px 40px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto; /* Center on page */
+    box-sizing: border-box;
+    transition: transform 0.3s ease;
+}
+
+form:hover {
+    transform: translateY(-3px);
+}
+
+/* Table layout for form fields */
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 15px;
+    margin-bottom: 20px;
+}
+
+/* Row hover effect */
+table tr {
+    transition: background-color 0.2s ease;
+}
+
+table tr:hover {
+    background-color: #fafafa;
+    border-radius: 8px;
+}
+
+/* Labels (first column) */
+table td:first-child {
+    text-align: right;
+    padding-right: 18px;
+    font-weight: 600;
+    color: #444;
+    width: 38%;
+}
+
+/* Inputs (second column) */
+table td:last-child {
+    text-align: left;
+    width: 62%;
+}
+
+/* Input fields */
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1em;
+    color: #333;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border-color: #2575fc;
+    box-shadow: 0 0 6px rgba(37, 117, 252, 0.3);
+    outline: none;
+}
+
+/* Buttons */
+input[type="submit"],
+input[type="reset"] {
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    color: #fff;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.05em;
+    font-weight: 600;
+    transition: background 0.3s ease, transform 0.2s ease;
+    width: 150px;
+    margin: 0 8px;
+}
+
+/* Hover buttons */
+input[type="submit"]:hover,
+input[type="reset"]:hover {
+    transform: translateY(-2px);
+}
+
+/* Reset button custom color */
+input[type="reset"] {
+    background: #f44336;
+}
+
+input[type="reset"]:hover {
+    background: #d32f2f;
+}
+
+/* Center button row */
+table:last-of-type td {
+    text-align: center;
+    padding-top: 10px;
+}
+
+</style>
+<h2 align="center"> <font color="green">LOGIN PAGE</font></h2><br><br><br>
+<!--<form method="post"  action="{% url 'dashboard' %}">-->
+<!--<form method="post" action="{% url 'authendication' %}">-->
+<!--    {% csrf_token %}-->
+<!--<table align="center" border="1.5">-->
+<!--    <tr>-->
+<!--        <td><label>Enter Username</label></td>-->
+<!--        <td><input type="text" name="uname" required/></td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--         <td><label>Enter Password</label></td>-->
+<!--        <td><input type="password" name="pwd" required/></td>-->
+<!--    </tr>-->
+<!--</table>-->
+<!--<br>-->
+<!--<table align="center">-->
+<!--    <tr>-->
+<!--        <td align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="Login">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>-->
+<!--        <td align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="reset" value="Clear">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>-->
+<!--    </tr>-->
+<!--</table>-->
+<!--    </form>-->
+<form method="post" action="{% url 'authendication' %}">
+    {% csrf_token %}
+    <table align="center" border="1.5">
+        <tr>
+            <td><label>Enter Username</label></td>
+            <td><input type="text" name="uname" required/></td>
+        </tr>
+        <tr>
+            <td><label>Enter Password</label></td>
+            <td><input type="password" name="pwd" required/></td>
+        </tr>
+    </table>
+    <br>
+    <table align="center">
+        <tr>
+            <td><input type="submit" value="Login"></td>
+            <td><input type="reset" value="Clear"></td>
+        </tr>
+    </table>
+</form>
+{% endblock %}
